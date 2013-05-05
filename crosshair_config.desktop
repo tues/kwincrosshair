@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kcm_kwin4_effect_crosshair
+X-KDE-ParentComponents=kwin4_effect_crosshair
+X-KDE-PluginKeyword=crosshair
+
+Name=Crosshair
+Name[en_GB]=Crosshair
+Name[pl]=Celownik
+Name[x-test]=xxCrosshairxx
