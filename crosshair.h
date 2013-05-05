@@ -62,6 +62,7 @@ private:
     int shape;
     int blend;
     int position;
+    bool roundPosition;
     QPointF currentPosition;
 };
 

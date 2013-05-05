@@ -76,6 +76,7 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     shape = conf.readEntry("Shape", 0);
     blend = conf.readEntry("Blend", 1);
     position = conf.readEntry("Position", 0);
+    roundPosition = conf.readEntry("RoundPosition", false);
     enabled = true;
 
     switch (position) {
@@ -190,6 +191,12 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
 {
     float x = pos.x();
     float y = pos.y();
+
+    if (roundPosition) {
+        x = round(x);
+        y = round(y);
+    }
+
     v.clear();
     switch (shape) {
     case 0:

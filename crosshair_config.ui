@@ -277,6 +277,19 @@
         </item>
        </widget>
       </item>
+      <item row="7" column="0" colspan="2">
+       <widget class="QCheckBox" name="roundPositionCheckBox">
+        <property name="toolTip">
+         <string>Round crosshair coordinates to the nearest integer. The crosshair will look better, but may be up to 0.5 pixel off-centre.</string>
+        </property>
+        <property name="whatsThis">
+         <string>Round crosshair coordinates to the nearest integer. The crosshair will look better, but may be up to 0.5 pixel off-centre.</string>
+        </property>
+        <property name="text">
+         <string>Round Position</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
