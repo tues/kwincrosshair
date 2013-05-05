@@ -1,5 +1,7 @@
 # Crosshair effect for KWin
 
+![Screenshot](http://bitbucket.org/tues/kwincrosshair/downloads/screenshot.png)
+
 ## Building
 
     $ cmake ./
