@@ -8,7 +8,57 @@
       <string>Appearance</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" >
+      <item row="0" column="0">
+       <widget class="QLabel" name="shapeLabel">
+        <property name="text">
+         <string>Crosshair Shape:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>shapeComboBox</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="shapeComboBox">
+        <property name="whatsThis">
+         <string>Shape of the crosshair.</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Cross</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hollow Cross</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>X</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hollow X</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Square</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Diamond</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0" >
        <widget class="QLabel" name="sizeLabel" >
         <property name="text" >
          <string>&amp;Size:</string>
@@ -21,7 +71,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
+      <item row="1" column="1" >
        <widget class="KIntSpinBox" name="spinSize" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -40,7 +90,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
+      <item row="2" column="0" >
        <widget class="QLabel" name="widthLabel" >
         <property name="text" >
          <string>&amp;Width:</string>
@@ -53,7 +103,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
+      <item row="2" column="1" >
        <widget class="KIntSpinBox" name="spinWidth" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -72,7 +122,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
+      <item row="3" column="0" >
        <widget class="QLabel" name="colorLabel" >
         <property name="text" >
          <string>&amp;Color:</string>
@@ -85,45 +135,13 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
+      <item row="3" column="1" >
        <widget class="KColorCombo" name="comboColors" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QLabel" name="alphaLabel" >
-        <property name="text" >
-         <string>&amp;Alpha:</string>
-        </property>
-        <property name="alignment" >
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy" >
-         <cstring>spinAlpha</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1" >
-       <widget class="KIntSpinBox" name="spinAlpha" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-        <property name="maximum" >
-         <number>100</number>
-        </property>
-        <property name="value" >
-         <number>50</number>
         </property>
        </widget>
       </item>
@@ -197,54 +215,36 @@
         </item>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="shapeLabel">
-        <property name="text">
-         <string>Crosshair Shape:</string>
+      <item row="5" column="0" >
+       <widget class="QLabel" name="alphaLabel" >
+        <property name="text" >
+         <string>&amp;Alpha:</string>
         </property>
-        <property name="alignment">
+        <property name="alignment" >
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
-        <property name="buddy">
-         <cstring>shapeComboBox</cstring>
+        <property name="buddy" >
+         <cstring>spinAlpha</cstring>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QComboBox" name="shapeComboBox">
-        <property name="whatsThis">
-         <string>Shape of the crosshair.</string>
+      <item row="5" column="1" >
+       <widget class="KIntSpinBox" name="spinAlpha" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <item>
-         <property name="text">
-          <string>Cross</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Hollow Cross</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>X</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Hollow X</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Square</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Diamond</string>
-         </property>
-        </item>
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>100</number>
+        </property>
+        <property name="value" >
+         <number>50</number>
+        </property>
        </widget>
       </item>
       <item row="6" column="0">
