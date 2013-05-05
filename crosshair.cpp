@@ -291,11 +291,10 @@ void CrosshairEffect::slotScreenGeometryChanged(const QSize& size)
 
 void CrosshairEffect::slotWindowActivated(KWin::EffectWindow* w)
 {
-    /*if (enabled && position > 0) {
+    if (enabled && position > 0 && w != NULL) {
         currentPosition = getWindowCentre(w);
         createCrosshair(currentPosition, verts);
-    }*/
-    EffectsHandler::sendReloadMessage("crosshair");
+    }
 }
 
 void CrosshairEffect::slotWindowGeometryShapeChanged(KWin::EffectWindow* w, const QRect& old)
