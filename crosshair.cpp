@@ -271,9 +271,14 @@ QPointF CrosshairEffect::getScreenCentre()
 
 QPointF CrosshairEffect::getWindowCentre(KWin::EffectWindow* w)
 {
-    const QRect& rect = w->geometry();//effects->clientArea(FullArea, effects->activeWindow());
-    return QPointF(rect.x() + rect.width () / 2.0f,
-		   rect.y() + rect.height() / 2.0f);
+    if (w != NULL) {
+        const QRect& rect = w->geometry();//effects->clientArea(FullArea, effects->activeWindow());
+        return QPointF(rect.x() + rect.width () / 2.0f,
+                       rect.y() + rect.height() / 2.0f);
+    } else {
+        // We can't do anything
+        return QPointF(0, 0);
+    }
 }
 
 void CrosshairEffect::slotScreenGeometryChanged(const QSize& size)
