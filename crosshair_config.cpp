@@ -91,12 +91,12 @@ void CrosshairEffectConfig::load()
 
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
 
-    int size  = conf.readEntry("Size", 2);
+    int size  = conf.readEntry("Size", 3);
     int width = conf.readEntry("LineWidth", 1);
     QColor color = conf.readEntry("Color", QColor(Qt::red));
-    int alpha = conf.readEntry("Alpha", 50);
-    int shape = conf.readEntry("Shape", 0);
-    int blend = conf.readEntry("Blend", 1);
+    int alpha = conf.readEntry("Alpha", 100);
+    int shape = conf.readEntry("Shape", 3);
+    int blend = conf.readEntry("Blend", 4);
     int position = conf.readEntry("Position", 0);
     m_ui->spinSize->setValue(size);
     m_ui->spinSize->setSuffix(ki18np(" pixel", " pixels"));
@@ -138,12 +138,12 @@ void CrosshairEffectConfig::save()
 
 void CrosshairEffectConfig::defaults()
 {
-    m_ui->spinSize->setValue(2);
+    m_ui->spinSize->setValue(3);
     m_ui->spinWidth->setValue(1);
     m_ui->comboColors->setColor(Qt::red);
-    m_ui->spinAlpha->setValue(50);
-    m_ui->shapeComboBox->setCurrentIndex(0);
-    m_ui->blendComboBox->setCurrentIndex(1);
+    m_ui->spinAlpha->setValue(100);
+    m_ui->shapeComboBox->setCurrentIndex(3);
+    m_ui->blendComboBox->setCurrentIndex(4);
     m_ui->positionComboBox->setCurrentIndex(0);
     emit changed(true);
 }
