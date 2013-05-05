@@ -92,33 +92,6 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     createCrosshair(currentPosition, verts);
 }
 
-#ifdef KWIN_HAVE_XRENDER_COMPOSITING
-void CrosshairEffect::addRect(const QPoint &p1, const QPoint &p2, XRectangle *r, XRenderColor *c)
-{
-    /*r->x = qMin(p1.x(), p2.x()) - width_2;
-    r->y = qMin(p1.y(), p2.y()) - width_2;
-    r->width = qAbs(p1.x()-p2.x()) + 1 + width_2;
-    r->height = qAbs(p1.y()-p2.y()) + 1 + width_2;
-    // fast move -> large rect, <strike>tess...</strike> interpolate a line
-    if (r->width > 3*width/2 && r->height > 3*width/2) {
-        const int n = sqrt(r->width*r->width + r->height*r->height) / width;
-        XRectangle *rects = new XRectangle[n-1];
-        const int w = p1.x() < p2.x() ? r->width : -r->width;
-        const int h = p1.y() < p2.y() ? r->height : -r->height;
-        for (int i = 1; i < n; ++i) {
-            rects[i-1].x = p1.x() + i*w/n;
-            rects[i-1].y = p1.y() + i*h/n;
-            rects[i-1].width = rects[i-1].height = width;
-        }
-        XRenderFillRectangles(display(), PictOpSrc, effects->xrenderBufferPicture(), c, rects, n - 1);
-        delete [] rects;
-        r->x = p1.x();
-        r->y = p1.y();
-        r->width = r->height = width;
-    }*/
-}
-#endif
-
 void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
 {
     effects->paintScreen(mask, region, data);   // paint normal screen
@@ -192,30 +165,6 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
         glDisable(GL_LINE_SMOOTH);
     #endif
     }
-#ifdef KWIN_HAVE_XRENDER_COMPOSITING
-    /*if (effects->compositingType() == XRenderCompositing) {
-        XRenderColor c = preMultiply(color);
-        for (int i = 0; i < marks.count(); ++i) {
-            const int n = marks[i].count() - 1;
-            if (n > 0) {
-                XRectangle *rects = new XRectangle[n];
-                for (int j = 0; j < marks[i].count()-1; ++j) {
-                    addRect(marks[i][j], marks[i][j+1], &rects[j], &c);
-                }
-                XRenderFillRectangles(display(), PictOpSrc, effects->xrenderBufferPicture(), &c, rects, n);
-                delete [] rects;
-            }
-        }
-        const int n = drawing.count() - 1;
-        if (n > 0) {
-            XRectangle *rects = new XRectangle[n];
-            for (int i = 0; i < n; ++i)
-                addRect(drawing[i], drawing[i+1], &rects[i], &c);
-            XRenderFillRectangles(display(), PictOpSrc, effects->xrenderBufferPicture(), &c, rects, n);
-            delete [] rects;
-        }
-	}*/
-#endif
 }
 
 void CrosshairEffect::toggle()
