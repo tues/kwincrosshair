@@ -91,6 +91,10 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     }
 
     createCrosshair(currentPosition, verts);
+
+    if (effects->compositingType() & OpenGLCompositing == 0) {
+        kDebug() << "Unsupported compositing type (not OpenGL)!";
+    }
 }
 
 void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
@@ -98,7 +102,7 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
     effects->paintScreen(mask, region, data);   // paint normal screen
     if (!enabled)
         return;
-    if (effects->compositingType() == OpenGLCompositing) {
+    if (effects->compositingType() & OpenGLCompositing) {
 #ifndef KWIN_HAVE_OPENGLES
         glEnable(GL_LINE_SMOOTH);
 #endif
