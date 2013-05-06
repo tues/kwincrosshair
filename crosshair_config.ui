@@ -272,7 +272,12 @@
         </item>
         <item>
          <property name="text">
-          <string>Current Window Centre</string>
+          <string>Selected Window Centre</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Active Window Centre</string>
          </property>
         </item>
        </widget>

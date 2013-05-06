@@ -77,16 +77,16 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     blend = conf.readEntry("Blend", 1);
     position = conf.readEntry("Position", 0);
     roundPosition = conf.readEntry("RoundPosition", false);
-    enabled = true;
+    enabled = false;
 
     switch (position) {
     case 0:
         currentPosition = getScreenCentre();
 	break;
     case 1:
-        currentPosition = getWindowCentre(effects->activeWindow());
         break;
     case 2:
+        currentPosition = getWindowCentre(effects->activeWindow());
         break;
     }
 
@@ -182,8 +182,11 @@ void CrosshairEffect::toggle()
 	    break;
 	case 1:
 	    currentPosition = getWindowCentre(effects->activeWindow());
+            lastWindow = effects->activeWindow();
 	    break;
 	case 2:
+	    currentPosition = getWindowCentre(effects->activeWindow());
+            lastWindow = effects->activeWindow();
 	    break;
 	}
         createCrosshair(currentPosition, verts);
@@ -295,7 +298,7 @@ void CrosshairEffect::slotScreenGeometryChanged(const QSize& size)
 
 void CrosshairEffect::slotWindowActivated(KWin::EffectWindow* w)
 {
-    if (enabled && position > 0 && w != NULL) {
+    if (enabled && ((position == 1 && w == lastWindow) || position == 2)) {
         currentPosition = getWindowCentre(w);
         createCrosshair(currentPosition, verts);
     }
@@ -303,7 +306,7 @@ void CrosshairEffect::slotWindowActivated(KWin::EffectWindow* w)
 
 void CrosshairEffect::slotWindowGeometryShapeChanged(KWin::EffectWindow* w, const QRect& old)
 {
-    if (enabled && position > 0) {
+    if (enabled && ((position == 1 && w == lastWindow) || position == 2)) {
         currentPosition = getWindowCentre(effects->activeWindow());
         createCrosshair(currentPosition, verts);
     }
@@ -311,7 +314,7 @@ void CrosshairEffect::slotWindowGeometryShapeChanged(KWin::EffectWindow* w, cons
 
 void CrosshairEffect::slotWindowFinishUserMovedResized(KWin::EffectWindow* w)
 {
-    if (enabled && position > 0) {
+    if (enabled && ((position == 1 && w == lastWindow) || position == 2)) {
         currentPosition = getWindowCentre(effects->activeWindow());
         createCrosshair(currentPosition, verts);
     }

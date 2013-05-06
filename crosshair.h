@@ -64,6 +64,7 @@ private:
     int position;
     bool roundPosition;
     QPointF currentPosition;
+    KWin::EffectWindow *lastWindow;
 };
 
 } // namespace
