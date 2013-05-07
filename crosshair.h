@@ -63,6 +63,8 @@ private:
     int blend;
     int position;
     bool roundPosition;
+    int offsetX;
+    int offsetY;
     QPointF currentPosition;
     KWin::EffectWindow *lastWindow;
 };

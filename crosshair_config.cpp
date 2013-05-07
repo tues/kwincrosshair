@@ -59,6 +59,8 @@ CrosshairEffectConfig::CrosshairEffectConfig(QWidget* parent, const QVariantList
     connect(m_ui->shapeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changed()));
     connect(m_ui->positionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changed()));
     connect(m_ui->roundPositionCheckBox, SIGNAL(toggled(bool)), this, SLOT(changed()));
+    connect(m_ui->offsetXSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+    connect(m_ui->offsetYSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
 
     /*connect(m_ui->spinSize, SIGNAL(valueChanged(int)), this, SLOT(myChanged()));
     connect(m_ui->spinWidth, SIGNAL(valueChanged(int)), this, SLOT(myChanged()));
@@ -100,6 +102,8 @@ void CrosshairEffectConfig::load()
     int blend = conf.readEntry("Blend", 4);
     int position = conf.readEntry("Position", 0);
     bool roundPosition = conf.readEntry("RoundPosition", false);
+    int offsetX = conf.readEntry("OffsetX", 0);
+    int offsetY = conf.readEntry("OffsetY", 0);
     m_ui->spinSize->setValue(size);
     m_ui->spinSize->setSuffix(ki18np(" pixel", " pixels"));
     m_ui->spinWidth->setValue(width);
@@ -111,6 +115,8 @@ void CrosshairEffectConfig::load()
     m_ui->blendComboBox->setCurrentIndex(blend);
     m_ui->positionComboBox->setCurrentIndex(position);
     m_ui->roundPositionCheckBox->setChecked(roundPosition);
+    m_ui->offsetXSpinBox->setValue(offsetX);
+    m_ui->offsetYSpinBox->setValue(offsetY);
 
     emit changed(false);
 }
@@ -130,6 +136,8 @@ void CrosshairEffectConfig::save()
     conf.writeEntry("Blend", m_ui->blendComboBox->currentIndex());
     conf.writeEntry("Position", m_ui->positionComboBox->currentIndex());
     conf.writeEntry("RoundPosition", m_ui->roundPositionCheckBox->isChecked());
+    conf.writeEntry("OffsetX", m_ui->offsetXSpinBox->value());
+    conf.writeEntry("OffsetY", m_ui->offsetYSpinBox->value());
 
     m_actionCollection->writeSettings();
     m_ui->editor->save();   // undo() will restore to this state from now on
@@ -150,6 +158,8 @@ void CrosshairEffectConfig::defaults()
     m_ui->blendComboBox->setCurrentIndex(4);
     m_ui->positionComboBox->setCurrentIndex(0);
     m_ui->roundPositionCheckBox->setChecked(false);
+    m_ui->offsetXSpinBox->setValue(0);
+    m_ui->offsetYSpinBox->setValue(0);
     emit changed(true);
 }
 
