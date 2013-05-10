@@ -39,6 +39,8 @@ public:
     virtual void paintScreen(int mask, QRegion region, ScreenPaintData& data);
     virtual bool isActive() const;
 
+    static bool supported();
+
 private slots:
     void toggle();
 

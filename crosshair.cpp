@@ -40,6 +40,7 @@ namespace KWin
 {
 
 KWIN_EFFECT(crosshair, CrosshairEffect)
+KWIN_EFFECT_SUPPORTED(crosshair, CrosshairEffect::supported())
 
 CrosshairEffect::CrosshairEffect()
 {
@@ -320,6 +321,11 @@ void CrosshairEffect::slotWindowFinishUserMovedResized(KWin::EffectWindow* w)
         currentPosition = getWindowCentre(effects->activeWindow());
         createCrosshair(currentPosition, verts);
     }
+}
+
+bool CrosshairEffect::supported()
+{
+    return effects->isOpenGLCompositing();
 }
 
 } // namespace
