@@ -62,12 +62,7 @@ CrosshairEffectConfig::CrosshairEffectConfig(QWidget* parent, const QVariantList
     connect(m_ui->offsetXSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
     connect(m_ui->offsetYSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
 
-    /*connect(m_ui->spinSize, SIGNAL(valueChanged(int)), this, SLOT(myChanged()));
-    connect(m_ui->spinWidth, SIGNAL(valueChanged(int)), this, SLOT(myChanged()));
-    connect(m_ui->comboColors, SIGNAL(currentIndexChanged(int)), this, SLOT(myChanged()));
-    connect(m_ui->spinAlpha, SIGNAL(valueChanged(int)), this, SLOT(myChanged()));
-    connect(m_ui->blendComboBox, SIGNAL(currentIndexChanged(bool)), this, SLOT(myChanged()));
-    connect(m_ui->shapeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(myChanged()));*/
+    connect(m_ui->blendComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(blendChanged(int)));
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
     m_actionCollection = new KActionCollection(this, KComponentData("kwin"));
@@ -118,6 +113,8 @@ void CrosshairEffectConfig::load()
     m_ui->offsetXSpinBox->setValue(offsetX);
     m_ui->offsetYSpinBox->setValue(offsetY);
 
+    m_ui->spinAlpha->setEnabled(blend > 0);
+
     emit changed(false);
 }
 
@@ -163,21 +160,9 @@ void CrosshairEffectConfig::defaults()
     emit changed(true);
 }
 
-void CrosshairEffectConfig::myChanged()
+void CrosshairEffectConfig::blendChanged(int index)
 {
-    m_ui->spinAlpha->setEnabled(m_ui->blendComboBox->currentIndex() > 0);
-    /*
-    KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
-
-    conf.writeEntry("Size", m_ui->spinSize->value());
-    conf.writeEntry("LineWidth", m_ui->spinWidth->value());
-    conf.writeEntry("Color", m_ui->comboColors->color());
-    conf.writeEntry("Alpha", m_ui->spinAlpha->value());
-    conf.writeEntry("Shape", m_ui->shapeComboBox->currentIndex());
-    conf.writeEntry("Blend", m_ui->blendComboBox->currentIndex());
-
-    conf.sync();
-    EffectsHandler::sendReloadMessage("crosshair");*/
+    m_ui->spinAlpha->setEnabled(index > 0);
 }
 
 } // namespace

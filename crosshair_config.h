@@ -49,7 +49,7 @@ public:
     virtual void defaults();
 
 private slots:
-    void myChanged();
+    void blendChanged(int index);
 
 private:
     CrosshairEffectConfigForm* m_ui;
