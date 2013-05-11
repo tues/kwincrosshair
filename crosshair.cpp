@@ -43,6 +43,7 @@ KWIN_EFFECT(crosshair, CrosshairEffect)
 KWIN_EFFECT_SUPPORTED(crosshair, CrosshairEffect::supported())
 
 CrosshairEffect::CrosshairEffect()
+    : texture(NULL)
 {
     KActionCollection* actionCollection = new KActionCollection(this);
     KAction* a = static_cast<KAction*>(actionCollection->addAction("ToggleCrosshair"));
@@ -62,25 +63,39 @@ CrosshairEffect::CrosshairEffect()
 
 CrosshairEffect::~CrosshairEffect()
 {
+    if (texture != NULL) {
+        delete texture;
+    }
 }
 
 static int width_2 = 1;
 void CrosshairEffect::reconfigure(ReconfigureFlags)
 {
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
-    size  = conf.readEntry("Size", 2);
+    size  = conf.readEntry("Size", 3);
     width = conf.readEntry("LineWidth", 1);
     width_2 = width / 2;
     color = conf.readEntry("Color", QColor(Qt::red));
-    alpha = conf.readEntry("Alpha", 50) / 100.0f;
+    alpha = conf.readEntry("Alpha", 100) / 100.0f;
     color.setAlphaF(alpha);
-    shape = conf.readEntry("Shape", 0);
-    blend = conf.readEntry("Blend", 1);
+    shape = conf.readEntry("Shape", 4);
+    blend = conf.readEntry("Blend", 4);
     position = conf.readEntry("Position", 0);
-    roundPosition = conf.readEntry("RoundPosition", false);
+    roundPosition = conf.readEntry("RoundPosition", true);
     offsetX = conf.readEntry("OffsetX", 0);
     offsetY = conf.readEntry("OffsetY", 0);
+    imagePath = conf.readEntry("Image", QString(""));
     enabled = false;
+
+    if (texture != NULL) {
+        delete texture;
+        texture = NULL;
+    }
+
+    if (shape == 0 && !imagePath.isEmpty()) {
+        QImage image(imagePath);
+        texture = new GLTexture(image);
+    }
 
     switch (position) {
     case 0:
@@ -95,7 +110,7 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
 
     createCrosshair(currentPosition, verts);
 
-    if (effects->compositingType() & OpenGLCompositing == 0) {
+    if ((effects->compositingType() & OpenGLCompositing) == 0) {
         kDebug() << "Unsupported compositing type (not OpenGL)!";
     }
 }
@@ -103,8 +118,10 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
 void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
 {
     effects->paintScreen(mask, region, data);   // paint normal screen
+
     if (!enabled)
         return;
+
     if (effects->compositingType() & OpenGLCompositing) {
 #ifndef KWIN_HAVE_OPENGLES
         glEnable(GL_LINE_SMOOTH);
@@ -150,28 +167,38 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
 	    glBlendFunc(GL_DST_COLOR, GL_ZERO); /* Multiply */
 	    break;
 	}
-        glLineWidth(width/2.0f);
 
-        GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
-        vbo->reset();
-        vbo->setUseColor(true);
-        vbo->setColor(color);
-        if (ShaderManager::instance()->isValid()) {
-            ShaderManager::instance()->pushShader(ShaderManager::ColorShader);
+        glLineWidth(width / 2.0f);
+
+        if (shape > 0) {
+            ShaderBinder binder(ShaderManager::ColorShader);
+
+            GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
+            vbo->reset();
+            vbo->setUseColor(true);
+            vbo->setColor(color);
+            vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+            vbo->render(GL_LINES);
+        } else if (texture != NULL) {
+            ShaderBinder binder(ShaderManager::SimpleShader);
+            GLShader *shader(binder.shader());
+            shader->setUniform(GLShader::Saturation, 1.0);
+            shader->setUniform(GLShader::ModulationConstant, QVector4D(
+                                   color.redF(),
+                                   color.greenF(),
+                                   color.blueF(),
+                                   alpha));
+
+            texture->bind();
+            texture->render(region, currentPositionRect);
+            texture->unbind();
         }
 
-	vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
-	vbo->render(GL_LINES);
-
-        if (ShaderManager::instance()->isValid()) {
-            ShaderManager::instance()->popShader();
-        }
-
-        glLineWidth(1.0);
+        glLineWidth(1.0f);
 	glPopAttrib();
-    #ifndef KWIN_HAVE_OPENGLES
+#ifndef KWIN_HAVE_OPENGLES
         glDisable(GL_LINE_SMOOTH);
-    #endif
+#endif
     }
 }
 
@@ -207,15 +234,20 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
         y = round(y);
     }
 
+    currentPositionRect = QRect(x - size, y - size, 2 * size, 2 * size);
+
     v.clear();
     switch (shape) {
     case 0:
+        // Image
+        break;
+    case 1:
         v << (x - size) << (y -    0);
 	v << (x + size) << (y +    0);
 	v << (x -    0) << (y - size);
 	v << (x +    0) << (y + size);
 	break;
-    case 1:
+    case 2:
         v << (x - size) << (y -    0);
         v << (x -    1) << (y -    0);
 	v << (x + size) << (y +    0);
@@ -225,13 +257,13 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
 	v << (x +    0) << (y + size);
 	v << (x +    0) << (y +    1);
 	break;
-    case 2:
+    case 3:
         v << (x - size) << (y - size);
 	v << (x + size) << (y + size);
 	v << (x - size) << (y + size);
 	v << (x + size) << (y - size);
 	break;
-    case 3:
+    case 4:
         v << (x - size) << (y - size);
         v << (x -    1) << (y -    1);
 	v << (x + size) << (y + size);
@@ -241,7 +273,7 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
 	v << (x + size) << (y - size);
 	v << (x +    1) << (y -    1);
 	break;
-    case 4:
+    case 5:
         v << (x - size) << (y - size);
 	v << (x + size) << (y - size);
         v << (x - size) << (y + size);
@@ -251,7 +283,7 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
         v << (x + size) << (y - size);
 	v << (x + size) << (y + size);
 	break;
-    case 5:
+    case 6:
         v << (x       ) << (y - size);
 	v << (x + size) << (y       );
         v << (x + size) << (y       );
@@ -282,7 +314,7 @@ QPointF CrosshairEffect::getScreenCentre()
 QPointF CrosshairEffect::getWindowCentre(KWin::EffectWindow* w)
 {
     if (w != NULL) {
-        const QRect& rect = w->geometry();//effects->clientArea(FullArea, effects->activeWindow());
+        const QRect& rect = w->geometry();
         return QPointF(rect.x() + rect.width () / 2.0f,
                        rect.y() + rect.height() / 2.0f);
     } else {

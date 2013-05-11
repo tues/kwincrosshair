@@ -28,6 +28,11 @@
         </property>
         <item>
          <property name="text">
+          <string>Image</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Cross</string>
          </property>
         </item>
@@ -58,7 +63,27 @@
         </item>
        </widget>
       </item>
-      <item row="1" column="0" >
+      <item row="1" column="0">
+       <widget class="QLabel" name="imageLabel">
+        <property name="text">
+         <string>Crosshair Image:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>imageKUrlRequester</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="KUrlRequester" name="imageKUrlRequester">
+        <property name="whatsThis">
+         <string>Image to use as the crosshair.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
        <widget class="QLabel" name="sizeLabel" >
         <property name="text" >
          <string>&amp;Size:</string>
@@ -71,7 +96,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
+      <item row="2" column="1" >
        <widget class="KIntSpinBox" name="spinSize" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -83,14 +108,14 @@
          <number>1</number>
         </property>
         <property name="maximum" >
-         <number>10</number>
+         <number>1000</number>
         </property>
         <property name="value" >
          <number>3</number>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
+      <item row="3" column="0" >
        <widget class="QLabel" name="widthLabel" >
         <property name="text" >
          <string>&amp;Width:</string>
@@ -103,7 +128,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
+      <item row="3" column="1" >
        <widget class="KIntSpinBox" name="spinWidth" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -122,7 +147,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
+      <item row="4" column="0" >
        <widget class="QLabel" name="colorLabel" >
         <property name="text" >
          <string>&amp;Color:</string>
@@ -135,7 +160,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1" >
+      <item row="4" column="1" >
        <widget class="KColorCombo" name="comboColors" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -145,7 +170,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="blendLabel">
         <property name="text">
          <string>Alpha Blending:</string>
@@ -158,7 +183,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QComboBox" name="blendComboBox">
         <property name="whatsThis">
          <string>Alpha blending type.</string>
@@ -215,7 +240,7 @@
         </item>
        </widget>
       </item>
-      <item row="5" column="0" >
+      <item row="6" column="0" >
        <widget class="QLabel" name="alphaLabel" >
         <property name="text" >
          <string>&amp;Alpha:</string>
@@ -228,7 +253,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1" >
+      <item row="6" column="1" >
        <widget class="KIntSpinBox" name="spinAlpha" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -247,7 +272,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="positionLabel">
         <property name="text">
          <string>Position:</string>
@@ -260,7 +285,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="7" column="1">
        <widget class="QComboBox" name="positionComboBox">
         <property name="whatsThis">
          <string>Position of the crosshair.</string>
@@ -282,7 +307,7 @@
         </item>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <widget class="QCheckBox" name="roundPositionCheckBox">
         <property name="toolTip">
          <string>Round crosshair coordinates to the nearest integer. The crosshair will look better, but may be up to 0.5 pixel off-centre.</string>
@@ -295,7 +320,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0" >
+      <item row="9" column="0" >
        <widget class="QLabel" name="offsetXLabel" >
         <property name="text" >
          <string>Offset X:</string>
@@ -308,7 +333,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="1" >
+      <item row="9" column="1" >
        <widget class="KIntSpinBox" name="offsetXSpinBox" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -327,7 +352,7 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0" >
+      <item row="10" column="0" >
        <widget class="QLabel" name="offsetYLabel" >
         <property name="text" >
          <string>Offset Y:</string>
@@ -340,7 +365,7 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="1" >
+      <item row="10" column="1" >
        <widget class="KIntSpinBox" name="offsetYSpinBox" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >

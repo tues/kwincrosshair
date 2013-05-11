@@ -50,6 +50,7 @@ public:
 
 private slots:
     void blendChanged(int index);
+    void shapeChanged(int index);
 
 private:
     CrosshairEffectConfigForm* m_ui;

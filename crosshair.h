@@ -67,7 +67,10 @@ private:
     bool roundPosition;
     int offsetX;
     int offsetY;
+    QString imagePath;
+    GLTexture* texture;
     QPointF currentPosition;
+    QRect currentPositionRect;
     KWin::EffectWindow *lastWindow;
 };
 

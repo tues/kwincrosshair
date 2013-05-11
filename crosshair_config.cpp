@@ -61,8 +61,11 @@ CrosshairEffectConfig::CrosshairEffectConfig(QWidget* parent, const QVariantList
     connect(m_ui->roundPositionCheckBox, SIGNAL(toggled(bool)), this, SLOT(changed()));
     connect(m_ui->offsetXSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
     connect(m_ui->offsetYSpinBox, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+    connect(m_ui->imageKUrlRequester, SIGNAL(textChanged(QString)), this, SLOT(changed()));
+    connect(m_ui->imageKUrlRequester, SIGNAL(urlSelected(KUrl)), this, SLOT(changed()));
 
     connect(m_ui->blendComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(blendChanged(int)));
+    connect(m_ui->shapeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(shapeChanged(int)));
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
     m_actionCollection = new KActionCollection(this, KComponentData("kwin"));
@@ -93,12 +96,13 @@ void CrosshairEffectConfig::load()
     int width = conf.readEntry("LineWidth", 1);
     QColor color = conf.readEntry("Color", QColor(Qt::red));
     int alpha = conf.readEntry("Alpha", 100);
-    int shape = conf.readEntry("Shape", 3);
+    int shape = conf.readEntry("Shape", 4);
     int blend = conf.readEntry("Blend", 4);
     int position = conf.readEntry("Position", 0);
-    bool roundPosition = conf.readEntry("RoundPosition", false);
+    bool roundPosition = conf.readEntry("RoundPosition", true);
     int offsetX = conf.readEntry("OffsetX", 0);
     int offsetY = conf.readEntry("OffsetY", 0);
+    QString imagePath = conf.readEntry("Image", QString(""));
     m_ui->spinSize->setValue(size);
     m_ui->spinSize->setSuffix(ki18np(" pixel", " pixels"));
     m_ui->spinWidth->setValue(width);
@@ -112,8 +116,11 @@ void CrosshairEffectConfig::load()
     m_ui->roundPositionCheckBox->setChecked(roundPosition);
     m_ui->offsetXSpinBox->setValue(offsetX);
     m_ui->offsetYSpinBox->setValue(offsetY);
+    m_ui->imageKUrlRequester->setPath(imagePath);
 
     m_ui->spinAlpha->setEnabled(blend > 0);
+    m_ui->spinWidth->setEnabled(shape > 0);
+    m_ui->imageKUrlRequester->setEnabled(shape == 0);
 
     emit changed(false);
 }
@@ -135,6 +142,7 @@ void CrosshairEffectConfig::save()
     conf.writeEntry("RoundPosition", m_ui->roundPositionCheckBox->isChecked());
     conf.writeEntry("OffsetX", m_ui->offsetXSpinBox->value());
     conf.writeEntry("OffsetY", m_ui->offsetYSpinBox->value());
+    conf.writeEntry("Image", m_ui->imageKUrlRequester->url().pathOrUrl());
 
     m_actionCollection->writeSettings();
     m_ui->editor->save();   // undo() will restore to this state from now on
@@ -151,10 +159,10 @@ void CrosshairEffectConfig::defaults()
     m_ui->spinWidth->setValue(1);
     m_ui->comboColors->setColor(Qt::red);
     m_ui->spinAlpha->setValue(100);
-    m_ui->shapeComboBox->setCurrentIndex(3);
+    m_ui->shapeComboBox->setCurrentIndex(4);
     m_ui->blendComboBox->setCurrentIndex(4);
     m_ui->positionComboBox->setCurrentIndex(0);
-    m_ui->roundPositionCheckBox->setChecked(false);
+    m_ui->roundPositionCheckBox->setChecked(true);
     m_ui->offsetXSpinBox->setValue(0);
     m_ui->offsetYSpinBox->setValue(0);
     emit changed(true);
@@ -163,6 +171,12 @@ void CrosshairEffectConfig::defaults()
 void CrosshairEffectConfig::blendChanged(int index)
 {
     m_ui->spinAlpha->setEnabled(index > 0);
+}
+
+void CrosshairEffectConfig::shapeChanged(int index)
+{
+    m_ui->spinWidth->setEnabled(index > 0);
+    m_ui->imageKUrlRequester->setEnabled(index == 0);
 }
 
 } // namespace
