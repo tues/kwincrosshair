@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KActionCollection>
 #include <kaction.h>
 #include <KShortcutsEditor>
+#include <kstandarddirs.h>
 
 #include <QWidget>
 
@@ -92,17 +93,17 @@ void CrosshairEffectConfig::load()
 
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
 
-    int size  = conf.readEntry("Size", 3);
+    int size  = conf.readEntry("Size", 20);
     int width = conf.readEntry("LineWidth", 1);
-    QColor color = conf.readEntry("Color", QColor(Qt::red));
+    QColor color = conf.readEntry("Color", QColor(255, 48, 48));
     int alpha = conf.readEntry("Alpha", 100);
-    int shape = conf.readEntry("Shape", 4);
-    int blend = conf.readEntry("Blend", 4);
+    int shape = conf.readEntry("Shape", 0);
+    int blend = conf.readEntry("Blend", 6);
     int position = conf.readEntry("Position", 0);
     bool roundPosition = conf.readEntry("RoundPosition", true);
     int offsetX = conf.readEntry("OffsetX", 0);
     int offsetY = conf.readEntry("OffsetY", 0);
-    QString imagePath = conf.readEntry("Image", QString(""));
+    QString imagePath = conf.readEntry("Image", KGlobal::dirs()->findResource("data", "kwin/crosshair_glow.png"));
     m_ui->spinSize->setValue(size);
     m_ui->spinSize->setSuffix(ki18np(" pixel", " pixels"));
     m_ui->spinWidth->setValue(width);
@@ -116,7 +117,7 @@ void CrosshairEffectConfig::load()
     m_ui->roundPositionCheckBox->setChecked(roundPosition);
     m_ui->offsetXSpinBox->setValue(offsetX);
     m_ui->offsetYSpinBox->setValue(offsetY);
-    m_ui->imageKUrlRequester->setPath(imagePath);
+    m_ui->imageKUrlRequester->setUrl(imagePath);
 
     m_ui->spinAlpha->setEnabled(blend > 0);
     m_ui->spinWidth->setEnabled(shape > 0);
@@ -155,16 +156,18 @@ void CrosshairEffectConfig::save()
 
 void CrosshairEffectConfig::defaults()
 {
-    m_ui->spinSize->setValue(3);
+    m_ui->spinSize->setValue(20);
     m_ui->spinWidth->setValue(1);
-    m_ui->comboColors->setColor(Qt::red);
+    m_ui->comboColors->setColor(QColor(255, 48, 48));
     m_ui->spinAlpha->setValue(100);
-    m_ui->shapeComboBox->setCurrentIndex(4);
-    m_ui->blendComboBox->setCurrentIndex(4);
+    m_ui->shapeComboBox->setCurrentIndex(0);
+    m_ui->blendComboBox->setCurrentIndex(6);
     m_ui->positionComboBox->setCurrentIndex(0);
     m_ui->roundPositionCheckBox->setChecked(true);
     m_ui->offsetXSpinBox->setValue(0);
     m_ui->offsetYSpinBox->setValue(0);
+    m_ui->imageKUrlRequester->setUrl(KGlobal::dirs()->findResource("data", "kwin/crosshair_glow.png"));
+
     emit changed(true);
 }
 

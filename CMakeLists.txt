@@ -105,6 +105,11 @@ install( FILES
     crosshair_config.desktop
     DESTINATION ${SERVICES_INSTALL_DIR}/kwin )
 
+install( FILES
+    data/crosshair.png
+    data/crosshair_glow.png
+    DESTINATION ${DATA_INSTALL_DIR}/kwin )
+
 KWIN4_ADD_EFFECT( crosshair ${kwin4_effect_crosshair_sources} )
 if( NOT KWIN_MOBILE_EFFECTS )
     KWIN4_ADD_EFFECT_CONFIG( crosshair ${kwin4_effect_crosshair_config_sources} )

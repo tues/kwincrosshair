@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kconfiggroup.h>
+#include <kstandarddirs.h>
 
 #include <math.h>
 
@@ -72,19 +73,19 @@ static int width_2 = 1;
 void CrosshairEffect::reconfigure(ReconfigureFlags)
 {
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
-    size  = conf.readEntry("Size", 3);
+    size  = conf.readEntry("Size", 20);
     width = conf.readEntry("LineWidth", 1);
     width_2 = width / 2;
-    color = conf.readEntry("Color", QColor(Qt::red));
+    color = conf.readEntry("Color", QColor(255, 48, 48));
     alpha = conf.readEntry("Alpha", 100) / 100.0f;
     color.setAlphaF(alpha);
-    shape = conf.readEntry("Shape", 4);
-    blend = conf.readEntry("Blend", 4);
+    shape = conf.readEntry("Shape", 0);
+    blend = conf.readEntry("Blend", 6);
     position = conf.readEntry("Position", 0);
     roundPosition = conf.readEntry("RoundPosition", true);
     offsetX = conf.readEntry("OffsetX", 0);
     offsetY = conf.readEntry("OffsetY", 0);
-    imagePath = conf.readEntry("Image", QString(""));
+    imagePath = conf.readEntry("Image", KGlobal::dirs()->findResource("data", "kwin/crosshair_glow.png"));
     enabled = false;
 
     if (texture != NULL) {
