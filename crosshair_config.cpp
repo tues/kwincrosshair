@@ -71,10 +71,42 @@ CrosshairEffectConfig::CrosshairEffectConfig(QWidget* parent, const QVariantList
     // Shortcut config. The shortcut belongs to the component "kwin"!
     m_actionCollection = new KActionCollection(this, KComponentData("kwin"));
 
-    KAction* a = static_cast<KAction*>(m_actionCollection->addAction("ToggleCrosshair"));
+    KAction* a;
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("ToggleCrosshair"));
     a->setText(i18n("Toggle Crosshair"));
     a->setProperty("isConfigurationAction", true);
     a->setGlobalShortcut(KShortcut(Qt::SHIFT + Qt::META + Qt::Key_F11));
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("MoveCrosshairUp"));
+    a->setText(i18n("Move Crosshair Up"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("MoveCrosshairDown"));
+    a->setText(i18n("Move Crosshair Down"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("MoveCrosshairLeft"));
+    a->setText(i18n("Move Crosshair Left"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("MoveCrosshairRight"));
+    a->setText(i18n("Move Crosshair Right"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("ResetCrosshairOffset"));
+    a->setText(i18n("Reset Crosshair Offset"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
+
+    a = static_cast<KAction*>(m_actionCollection->addAction("SaveCrosshairOffset"));
+    a->setText(i18n("Save Crosshair Offset"));
+    a->setProperty("isConfigurationAction", true);
+    a->setGlobalShortcut(KShortcut());
 
     m_ui->editor->addCollection(m_actionCollection);
 

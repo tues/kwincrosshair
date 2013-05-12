@@ -47,12 +47,42 @@ CrosshairEffect::CrosshairEffect()
     : texture(NULL)
 {
     KActionCollection* actionCollection = new KActionCollection(this);
-    KAction* a = static_cast<KAction*>(actionCollection->addAction("ToggleCrosshair"));
+    KAction* a;
 
+    a = static_cast<KAction*>(actionCollection->addAction("ToggleCrosshair"));
     a->setText(i18n("Toggle Crosshair"));
     a->setGlobalShortcut(KShortcut(Qt::SHIFT + Qt::META + Qt::Key_F11));
     connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
-    a = static_cast<KAction*>(actionCollection->addAction("ToggleCrosshair"));
+
+    a = static_cast<KAction*>(actionCollection->addAction("MoveCrosshairUp"));
+    a->setText(i18n("Move Crosshair Up"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(moveUp()));
+
+    a = static_cast<KAction*>(actionCollection->addAction("MoveCrosshairDown"));
+    a->setText(i18n("Move Crosshair Down"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(moveDown()));
+
+    a = static_cast<KAction*>(actionCollection->addAction("MoveCrosshairLeft"));
+    a->setText(i18n("Move Crosshair Left"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(moveLeft()));
+
+    a = static_cast<KAction*>(actionCollection->addAction("MoveCrosshairRight"));
+    a->setText(i18n("Move Crosshair Right"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(moveRight()));
+
+    a = static_cast<KAction*>(actionCollection->addAction("ResetCrosshairOffset"));
+    a->setText(i18n("Reset Crosshair Offset"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(resetOffset()));
+
+    a = static_cast<KAction*>(actionCollection->addAction("SaveCrosshairOffset"));
+    a->setText(i18n("Save Crosshair Offset"));
+    a->setGlobalShortcut(KShortcut());
+    connect(a, SIGNAL(triggered(bool)), this, SLOT(saveOffset()));
 
     connect(effects, SIGNAL(screenGeometryChanged(QSize)), this, SLOT(slotScreenGeometryChanged(QSize)));
     connect(effects, SIGNAL(windowActivated(KWin::EffectWindow*)), this, SLOT(slotWindowActivated(KWin::EffectWindow*)));
@@ -359,6 +389,51 @@ void CrosshairEffect::slotWindowFinishUserMovedResized(KWin::EffectWindow* w)
 bool CrosshairEffect::supported()
 {
     return effects->isOpenGLCompositing();
+}
+
+void CrosshairEffect::updateOffset()
+{
+    createCrosshair(currentPosition, verts);
+    effects->addRepaintFull();
+}
+
+void CrosshairEffect::moveUp()
+{
+    offsetY -= 1;
+    updateOffset();
+}
+
+void CrosshairEffect::moveDown()
+{
+    offsetY += 1;
+    updateOffset();
+}
+
+void CrosshairEffect::moveLeft()
+{
+    offsetX -= 1;
+    updateOffset();
+}
+
+void CrosshairEffect::moveRight()
+{
+    offsetX += 1;
+    updateOffset();
+}
+
+void CrosshairEffect::resetOffset()
+{
+    offsetX = 0;
+    offsetY = 0;
+    updateOffset();
+}
+
+void CrosshairEffect::saveOffset()
+{
+    KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
+    conf.writeEntry("OffsetX", offsetX);
+    conf.writeEntry("OffsetY", offsetY);
+    conf.sync();
 }
 
 } // namespace

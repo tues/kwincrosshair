@@ -44,6 +44,13 @@ public:
 private slots:
     void toggle();
 
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+    void resetOffset();
+    void saveOffset();
+
     void slotScreenGeometryChanged(const QSize& size);
     void slotWindowActivated(KWin::EffectWindow* w);
     void slotWindowGeometryShapeChanged(KWin::EffectWindow* w, const QRect& old);
@@ -54,6 +61,8 @@ private:
 
     QPointF getScreenCentre();
     QPointF getWindowCentre(KWin::EffectWindow* w);
+
+    void updateOffset();
 
     QVector<float> verts;
     bool enabled;
