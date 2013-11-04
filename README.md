@@ -2,6 +2,11 @@
 
 ![Screenshot](http://bitbucket.org/tues/kwincrosshair/downloads/screenshot2.png)
 
+## Requirements
+
+KWinCrosshair has been tested with Qt 4.8 and KWin 4.9, but it should work with
+Qt 4.6 and KWin 4.7 or newer.
+
 ## Building and installing (the easy way)
 
 In your terminal, go to the directory containing the project sources and run:

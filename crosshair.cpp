@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <kdebug.h>
 
+#include <QVector4D>
+
 namespace KWin
 {
 
@@ -201,8 +203,9 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
 
         glLineWidth(width / 2.0f);
 
+        ShaderManager *shaderManager = ShaderManager::instance();
         if (shape > 0) {
-            ShaderBinder binder(ShaderManager::ColorShader);
+            shaderManager->pushShader(ShaderManager::ColorShader);
 
             GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
             vbo->reset();
@@ -210,9 +213,12 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
             vbo->setColor(color);
             vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
             vbo->render(GL_LINES);
+
+            shaderManager->popShader();
         } else if (texture != NULL) {
-            ShaderBinder binder(ShaderManager::SimpleShader);
-            GLShader *shader(binder.shader());
+            shaderManager->pushShader(ShaderManager::SimpleShader);
+
+            GLShader *shader = shaderManager->getBoundShader();
             shader->setUniform(GLShader::Saturation, 1.0);
             shader->setUniform(GLShader::ModulationConstant, QVector4D(
                                    color.redF(),
@@ -223,6 +229,8 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
             texture->bind();
             texture->render(region, currentPositionRect);
             texture->unbind();
+
+            shaderManager->popShader();
         }
 
         glLineWidth(1.0f);
@@ -388,7 +396,7 @@ void CrosshairEffect::slotWindowFinishUserMovedResized(KWin::EffectWindow* w)
 
 bool CrosshairEffect::supported()
 {
-    return effects->isOpenGLCompositing();
+    return effects->compositingType() & OpenGLCompositing;
 }
 
 void CrosshairEffect::updateOffset()
