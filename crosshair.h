@@ -61,10 +61,45 @@ private slots:
 
 private:
 
+    enum Position
+    {
+        SCREEN_CENTRE         = 0,
+        WINDOW_CENTRE         = 1, /* Single window only */
+        CURRENT_WINDOW_CENTRE = 2  /* Always follow window focus */
+    };
+
+    enum Shape
+    {
+        IMAGE        = 0,
+        CROSS        = 1,
+        HOLLOW_CROSS = 2,
+        X            = 3,
+        HOLLOW_X     = 4,
+        SQUARE       = 5,
+        DIAMOND      = 6
+    };
+
+    enum BlendMode
+    {
+        NONE               = 0,
+        OPAQUE             = 1,
+        TRANSPARENT        = 2,
+        BLACK_BG           = 3,
+        INVERT             = 4,
+        INVERT_ON_BLACK_BG = 5,
+        INVERT_WITH_ALPHA  = 6,
+        DARKEN             = 7,
+        LIGHTEN            = 8,
+        MULTIPLY           = 9
+    };
+
     void createCrosshair(QPointF &pos, QVector<float> &v);
 
     QPointF getScreenCentre();
     QPointF getWindowCentre(KWin::EffectWindow* w);
+
+    bool isEnabledForScreen();
+    bool isEnabledForWindow(KWin::EffectWindow* w);
 
     void updateOffset();
 
@@ -74,9 +109,9 @@ private:
     int width;
     float alpha;
     QColor color;
-    int shape;
-    int blend;
-    int position;
+    Shape shape;
+    BlendMode blend;
+    Position position;
     bool roundPosition;
     int offsetX;
     int offsetY;
