@@ -133,7 +133,7 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     switch (position) {
     case 0:
         currentPosition = getScreenCentre();
-	break;
+        break;
     case 1:
         break;
     case 2:
@@ -159,47 +159,47 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
 #ifndef KWIN_HAVE_OPENGLES
         glEnable(GL_LINE_SMOOTH);
 #endif
-	glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT);
-	switch (blend) {
-	case 0:
+        glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT);
+        switch (blend) {
+        case 0:
             break;
-	case 1:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); /* Opaque */
-	    break;
-	case 2:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); /* Transparent */
-	    break;
-	case 3:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_SRC_ALPHA, GL_ZERO); /* Black Background */
-	    break;
-	case 4:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO); /* Invert */
-	    break;
-	case 5:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_COLOR); /* Invert on Black Background */
-	    break;
-	case 6:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA); /* Invert with Alpha */
-	    break;
-	case 7:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA); /* Darken */
-	    break;
-	case 8:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_DST_COLOR, GL_ONE); /* Lighten */
-	    break;
-	case 9:
-	    glEnable(GL_BLEND);
-	    glBlendFunc(GL_DST_COLOR, GL_ZERO); /* Multiply */
-	    break;
-	}
+        case 1:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); /* Opaque */
+            break;
+        case 2:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); /* Transparent */
+            break;
+        case 3:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ZERO); /* Black Background */
+            break;
+        case 4:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO); /* Invert */
+            break;
+        case 5:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_COLOR); /* Invert on Black Background */
+            break;
+        case 6:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA); /* Invert with Alpha */
+            break;
+        case 7:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA); /* Darken */
+            break;
+        case 8:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_DST_COLOR, GL_ONE); /* Lighten */
+            break;
+        case 9:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_DST_COLOR, GL_ZERO); /* Multiply */
+            break;
+        }
 
         glLineWidth(width / 2.0f);
 
@@ -234,7 +234,7 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
         }
 
         glLineWidth(1.0f);
-	glPopAttrib();
+        glPopAttrib();
 #ifndef KWIN_HAVE_OPENGLES
         glDisable(GL_LINE_SMOOTH);
 #endif
@@ -246,18 +246,18 @@ void CrosshairEffect::toggle()
     enabled = !enabled;
     if (enabled) {
         switch (position) {
-	case 0:
-	    currentPosition = getScreenCentre();
-	    break;
-	case 1:
-	    currentPosition = getWindowCentre(effects->activeWindow());
+        case 0:
+            currentPosition = getScreenCentre();
+            break;
+        case 1:
+            currentPosition = getWindowCentre(effects->activeWindow());
             lastWindow = effects->activeWindow();
-	    break;
-	case 2:
-	    currentPosition = getWindowCentre(effects->activeWindow());
+            break;
+        case 2:
+            currentPosition = getWindowCentre(effects->activeWindow());
             lastWindow = effects->activeWindow();
-	    break;
-	}
+            break;
+        }
         createCrosshair(currentPosition, verts);
     }
     effects->addRepaintFull();
@@ -282,56 +282,56 @@ void CrosshairEffect::createCrosshair(QPointF &pos, QVector<float> &v)
         break;
     case 1:
         v << (x - size) << (y -    0);
-	v << (x + size) << (y +    0);
-	v << (x -    0) << (y - size);
-	v << (x +    0) << (y + size);
-	break;
+        v << (x + size) << (y +    0);
+        v << (x -    0) << (y - size);
+        v << (x +    0) << (y + size);
+        break;
     case 2:
         v << (x - size) << (y -    0);
         v << (x -    1) << (y -    0);
-	v << (x + size) << (y +    0);
-	v << (x +    1) << (y +    0);
-	v << (x -    0) << (y - size);
-	v << (x -    0) << (y -    1);
-	v << (x +    0) << (y + size);
-	v << (x +    0) << (y +    1);
-	break;
+        v << (x + size) << (y +    0);
+        v << (x +    1) << (y +    0);
+        v << (x -    0) << (y - size);
+        v << (x -    0) << (y -    1);
+        v << (x +    0) << (y + size);
+        v << (x +    0) << (y +    1);
+        break;
     case 3:
         v << (x - size) << (y - size);
-	v << (x + size) << (y + size);
-	v << (x - size) << (y + size);
-	v << (x + size) << (y - size);
-	break;
+        v << (x + size) << (y + size);
+        v << (x - size) << (y + size);
+        v << (x + size) << (y - size);
+        break;
     case 4:
         v << (x - size) << (y - size);
         v << (x -    1) << (y -    1);
-	v << (x + size) << (y + size);
-	v << (x +    1) << (y +    1);
-	v << (x - size) << (y + size);
-	v << (x -    1) << (y +    1);
-	v << (x + size) << (y - size);
-	v << (x +    1) << (y -    1);
-	break;
+        v << (x + size) << (y + size);
+        v << (x +    1) << (y +    1);
+        v << (x - size) << (y + size);
+        v << (x -    1) << (y +    1);
+        v << (x + size) << (y - size);
+        v << (x +    1) << (y -    1);
+        break;
     case 5:
         v << (x - size) << (y - size);
-	v << (x + size) << (y - size);
-        v << (x - size) << (y + size);
-	v << (x + size) << (y + size);
-        v << (x - size) << (y - size);
-	v << (x - size) << (y + size);
         v << (x + size) << (y - size);
-	v << (x + size) << (y + size);
-	break;
+        v << (x - size) << (y + size);
+        v << (x + size) << (y + size);
+        v << (x - size) << (y - size);
+        v << (x - size) << (y + size);
+        v << (x + size) << (y - size);
+        v << (x + size) << (y + size);
+        break;
     case 6:
         v << (x       ) << (y - size);
-	v << (x + size) << (y       );
         v << (x + size) << (y       );
-	v << (x       ) << (y + size);
+        v << (x + size) << (y       );
         v << (x       ) << (y + size);
-	v << (x - size) << (y       );
+        v << (x       ) << (y + size);
         v << (x - size) << (y       );
-	v << (x       ) << (y - size);
-	break;
+        v << (x - size) << (y       );
+        v << (x       ) << (y - size);
+        break;
     default:
         // TODO
         break;
@@ -347,7 +347,7 @@ QPointF CrosshairEffect::getScreenCentre()
 {
     const QRect& rect = effects->clientArea(ScreenArea, effects->activeScreen(), 0);
     return QPointF(rect.x() + rect.width () / 2.0f,
-		   rect.y() + rect.height() / 2.0f);
+                   rect.y() + rect.height() / 2.0f);
 }
 
 QPointF CrosshairEffect::getWindowCentre(KWin::EffectWindow* w)
@@ -366,7 +366,7 @@ void CrosshairEffect::slotScreenGeometryChanged(const QSize& size)
 {
     if (enabled && position == 0) {
         currentPosition = getScreenCentre();
-	createCrosshair(currentPosition, verts);
+        createCrosshair(currentPosition, verts);
     }
 }
 
