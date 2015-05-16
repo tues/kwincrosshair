@@ -106,7 +106,7 @@ private:
     QVector<float> verts;
     bool enabled;
     int size;
-    int width;
+    float width;
     float alpha;
     QColor color;
     Shape shape;

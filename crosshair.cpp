@@ -106,7 +106,7 @@ void CrosshairEffect::reconfigure(ReconfigureFlags)
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
 
     size  = conf.readEntry("Size", 20);
-    width = conf.readEntry("LineWidth", 1);
+    width = conf.readEntry("LineWidth", 1) / 2.0f;
 
     color = conf.readEntry("Color", QColor(255, 48, 48));
     alpha = conf.readEntry("Alpha", 100) / 100.0f;
@@ -222,7 +222,7 @@ void CrosshairEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
                 break;
         }
 
-        glLineWidth(width / 2.0f);
+        glLineWidth(width);
 
         ShaderManager *shaderManager = ShaderManager::instance();
         if (shape != IMAGE) {
