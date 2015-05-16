@@ -33,14 +33,18 @@ namespace KWin
 class CrosshairEffectConfigForm : public QWidget, public Ui::CrosshairEffectConfigForm
 {
     Q_OBJECT
+
 public:
+
     explicit CrosshairEffectConfigForm(QWidget* parent);
 };
 
 class CrosshairEffectConfig : public KCModule
 {
     Q_OBJECT
+
 public:
+
     explicit CrosshairEffectConfig(QWidget* parent = 0, const QVariantList& args = QVariantList());
     virtual ~CrosshairEffectConfig();
 
@@ -49,10 +53,12 @@ public:
     virtual void defaults();
 
 private slots:
+
     void blendChanged(int index);
     void shapeChanged(int index);
 
 private:
+
     CrosshairEffectConfigForm* m_ui;
     KActionCollection* m_actionCollection;
 };

@@ -32,7 +32,9 @@ class CrosshairEffect
     : public Effect
 {
     Q_OBJECT
+
 public:
+
     CrosshairEffect();
     ~CrosshairEffect();
     virtual void reconfigure(ReconfigureFlags);
@@ -42,6 +44,7 @@ public:
     static bool supported();
 
 private slots:
+
     void toggle();
 
     void moveUp();
@@ -57,6 +60,7 @@ private slots:
     void slotWindowFinishUserMovedResized(KWin::EffectWindow* w);
 
 private:
+
     void createCrosshair(QPointF &pos, QVector<float> &v);
 
     QPointF getScreenCentre();
