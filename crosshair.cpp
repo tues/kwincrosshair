@@ -101,13 +101,11 @@ CrosshairEffect::~CrosshairEffect()
     }
 }
 
-static int width_2 = 1;
 void CrosshairEffect::reconfigure(ReconfigureFlags)
 {
     KConfigGroup conf = EffectsHandler::effectConfig("Crosshair");
     size  = conf.readEntry("Size", 20);
     width = conf.readEntry("LineWidth", 1);
-    width_2 = width / 2;
     color = conf.readEntry("Color", QColor(255, 48, 48));
     alpha = conf.readEntry("Alpha", 100) / 100.0f;
     color.setAlphaF(alpha);
@@ -364,6 +362,8 @@ QPointF CrosshairEffect::getWindowCentre(KWin::EffectWindow* w)
 
 void CrosshairEffect::slotScreenGeometryChanged(const QSize& size)
 {
+    Q_UNUSED(size);
+
     if (enabled && position == 0) {
         currentPosition = getScreenCentre();
         createCrosshair(currentPosition, verts);
@@ -380,6 +380,8 @@ void CrosshairEffect::slotWindowActivated(KWin::EffectWindow* w)
 
 void CrosshairEffect::slotWindowGeometryShapeChanged(KWin::EffectWindow* w, const QRect& old)
 {
+    Q_UNUSED(old);
+
     if (enabled && ((position == 1 && w == lastWindow) || position == 2)) {
         currentPosition = getWindowCentre(effects->activeWindow());
         createCrosshair(currentPosition, verts);
